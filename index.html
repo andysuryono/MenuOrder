@@ -153,11 +153,7 @@
             <h2>Detail Pemesanan</h2>
             <input type="text" id="name" placeholder="Nama Anda" required>
             <div style="margin: 10px 0;">
-        <label><strong>Jenis Pesanan:</strong></label><br>
-        <input type="radio" id="dine-in" name="order-type" value="Dine In" required>
-        <label for="dine-in">Dine In (Makan di Tempat)</label><br>
-        <input type="radio" id="take-away" name="order-type" value="Take Away" required>
-        <label for="take-away">Take Away (Bawa Pulang)</label>
+                <select id="order-type" required><option value="Dine In">Dine In</option><option value="Take Away">Take Away</option></select>
     </div>
             <textarea id="notes" placeholder="Catatan Tambahan (opsional)"></textarea>
             <button type="button" onclick="placeOrder()">Pesan Sekarang via WhatsApp</button>
@@ -191,7 +187,7 @@
 
         function placeOrder() {
             const name = document.getElementById('name').value;
-            const orderType = document.querySelector('input[name="order-type"]:checked')?.value;
+            const order-type = document.getElementById('order-type').value.
             const notes = document.getElementById('notes').value;
             if (!name || !address || cart.length === 0) {
                 alert('Harap isi nama, pilih jenis pesanan, dan tambah item ke keranjang!');
