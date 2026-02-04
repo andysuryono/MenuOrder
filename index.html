@@ -153,7 +153,12 @@
             <h2>Detail Pemesanan</h2>
             <input type="text" id="name" placeholder="Nama Anda" required>
             <div style="margin: 10px 0;">
-                <select id="order-type" required><option value="Dine In">Dine In</option><option value="Take Away">Take Away</option></select>
+    <select id="order-type" required style="margin: 10px 0;">
+        <option value="" disabled selected>Pilih Jenis Pesanan</option>
+        <option value="Dine In">Dine In (Makan di Tempat)</option>
+        <option value="Take Away">Take Away (Bawa Pulang)</option>
+    </select>
+
     </div>
             <textarea id="notes" placeholder="Catatan Tambahan (opsional)"></textarea>
             <button type="button" onclick="placeOrder()">Pesan Sekarang via WhatsApp</button>
