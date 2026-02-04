@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Order Online - Restoran Sederhana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .menu-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 300px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cart {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        /* Responsivitas untuk mobile */
+        @media (max-width: 768px) {
+            .menu-item {
+                width: 100%;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Restoran Sederhana - Menu Order Online</h1>
+        <p>Pesan makanan favorit Anda dengan mudah!</p>
+    </header>
+    <div class="container">
+        <h2>Menu Makanan</h2>
+        <div class="menu">
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/300x150?text=Nasi+Goreng" alt="Nasi Goreng">
+                <h3>Nasi Goreng</h3>
+                <p>Harga: Rp 25.000</p>
+                <button onclick="addToCart('Nasi Goreng', 25000)">Tambah ke Keranjang</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/300x150?text=Ayam+Goreng" alt="Ayam Goreng">
+                <h3>Ayam Goreng</h3>
+                <p>Harga: Rp 30.000</p>
+                <button onclick="addToCart('Ayam Goreng', 30000)">Tambah ke Keranjang</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/300x150?text=Mie+Goreng" alt="Mie Goreng">
+                <h3>Mie Goreng</h3>
+                <p>Harga: Rp 20.000</p>
+                <button onclick="addToCart('Mie Goreng', 20000)">Tambah ke Keranjang</button>
+            </div>
+            <!-- Tambah item menu lainnya di sini -->
+        </div>
+
+        <div class="cart">
+            <h2>Keranjang Anda</h2>
+            <div id="cart-items"></div>
+            <p>Total: Rp <span id="total">0</span></p>
+        </div>
+
+        <form id="order-form">
+            <h2>Detail Pemesanan</h2>
+            <input type="text" id="name" placeholder="Nama Anda" required>
+            <input type="text" id="address" placeholder="Alamat Pengiriman" required>
+            <textarea id="notes" placeholder="Catatan Tambahan (opsional)"></textarea>
+            <button type="button" onclick="placeOrder()">Pesan Sekarang via WhatsApp</button>
+        </form>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                cartItems.innerHTML += `<div class="cart-item">${item.item} - Rp ${item.price} <button onclick="removeFromCart(${index})">Hapus</button></div>`;
+            });
+            document.getElementById('total').textContent = total;
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+            if (!name || !address || cart.length === 0) {
+                alert('Harap isi semua field dan tambah item ke keranjang!');
+                return;
+            }
+            const orderDetails = cart.map(item => `${item.item} (Rp ${item.price})`).join('\n');
+            const message = `Halo, saya ingin memesan:\n${orderDetails}\nTotal: Rp ${total}\nNama: ${name}\nAlamat: ${address}\nCatatan: ${notes}`;
+            const whatsappUrl = `https://wa.me/6281286721762?text=${encodeURIComponent(message)}`; // Ganti 6281234567890 dengan nomor WhatsApp Anda (format internasional tanpa +)
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
