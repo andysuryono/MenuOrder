@@ -152,7 +152,13 @@
         <form id="order-form">
             <h2>Detail Pemesanan</h2>
             <input type="text" id="name" placeholder="Nama Anda" required>
-            <input type="text" id="address" placeholder="Alamat Pengiriman" required>
+            <div style="margin: 10px 0;">
+        <label><strong>Jenis Pesanan:</strong></label><br>
+        <input type="radio" id="dine-in" name="order-type" value="Dine In" required>
+        <label for="dine-in">Dine In (Makan di Tempat)</label><br>
+        <input type="radio" id="take-away" name="order-type" value="Take Away" required>
+        <label for="take-away">Take Away (Bawa Pulang)</label>
+    </div>
             <textarea id="notes" placeholder="Catatan Tambahan (opsional)"></textarea>
             <button type="button" onclick="placeOrder()">Pesan Sekarang via WhatsApp</button>
         </form>
@@ -185,11 +191,11 @@
 
         function placeOrder() {
             const name = document.getElementById('name').value;
-            const address = document.getElementById('address').value;
+            const orderType = document.querySelector('input[name="order-type"]:checked')?.value;
             const notes = document.getElementById('notes').value;
             if (!name || !address || cart.length === 0) {
-                alert('Harap isi semua field dan tambah item ke keranjang!');
-                return;
+                alert('Harap isi nama, pilih jenis pesanan, dan tambah item ke keranjang!');
+        return;
             }
             const orderDetails = cart.map(item => `${item.item} (Rp ${item.price})`).join('\n');
             const message = `Halo, saya ingin memesan:\n${orderDetails}\nTotal: Rp ${total}\nNama: ${name}\nAlamat: ${address}\nCatatan: ${notes}`;
